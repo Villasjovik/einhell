@@ -640,6 +640,64 @@ box-shadow:
 .pi{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(242,237,228,.65);line-height:1.5}
 .pi::before{content:'·';color:var(--gold);font-size:16px;flex-shrink:0;line-height:1.2;margin-top:1px}
 .pi.hi{color:rgba(242,237,228,.9);font-weight:500}
+
+/* Per-paket Reach Boost — toggle inne i price-box, integrerad i kortet */
+.pkg-boost{
+  margin-top:28px;width:100%;
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 18px;
+  background:rgba(8,68,36,.32);
+  border:1px solid rgba(212,168,75,.16);
+  border-radius:14px;
+  color:var(--ink);font-family:'Inter',sans-serif;
+  cursor:pointer;text-align:left;
+  transition:background .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
+.pkg-boost:hover{
+  background:rgba(12,90,48,.5);
+  border-color:rgba(212,168,75,.32);
+  box-shadow:0 6px 24px rgba(0,0,0,.32),0 0 28px rgba(52,199,89,.08);
+}
+.pkg-boost:active{transform:scale(.997)}
+.pkg-boost[aria-pressed="true"]{
+  background:rgba(12,90,48,.58);
+  border-color:rgba(212,168,75,.42);
+  box-shadow:0 8px 30px rgba(0,0,0,.38),0 0 40px rgba(52,199,89,.12);
+}
+.pkg-boost-switch{
+  width:38px;height:22px;flex-shrink:0;margin-top:2px;
+  background:rgba(120,120,128,.32);border-radius:100px;
+  position:relative;transition:background-color .3s ease;
+}
+.pkg-boost-switch::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:18px;height:18px;background:#fff;border-radius:50%;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 2px 6px rgba(0,0,0,.2),0 0 0 .5px rgba(0,0,0,.04);
+}
+.pkg-boost[aria-pressed="true"] .pkg-boost-switch{background:#34C759}
+.pkg-boost[aria-pressed="true"] .pkg-boost-switch::after{transform:translateX(16px)}
+.pkg-boost-text{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.pkg-boost-title{
+  font-size:13px;font-weight:600;letter-spacing:.015em;color:var(--ink);
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  transition:color .35s var(--ease);
+}
+.pkg-boost[aria-pressed="true"] .pkg-boost-title{color:var(--gold)}
+.pkg-boost-price{
+  font-size:11px;font-weight:600;color:var(--gold);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.pkg-boost-desc{
+  font-size:12px;color:rgba(242,237,228,.55);
+  line-height:1.55;letter-spacing:.005em;
+}
+.pkg-boost[aria-pressed="true"] .pkg-boost-desc{color:rgba(242,237,228,.75)}
+@media(max-width:560px){
+  .pkg-boost{padding:14px 14px;gap:11px}
+  .pkg-boost-title{font-size:12px}
+  .pkg-boost-desc{font-size:11px}
+}
 @media(max-width:700px){
   .price-grid{grid-template-columns:1fr;perspective:none;max-width:none}
   .price-box,.price-grid>.price-box:first-child,.price-grid>.price-box:last-child{--pb-rot:0deg;--pb-base-y:0px}
@@ -1102,7 +1160,7 @@ position:relative;overflow:hidden;transition:color .35s}
     </div>
 
     <p class="meta-kicker rv">Betalt samarbete betalar tillbaka &mdash; när varje <em>exponering har ett nästa steg.</em></p>
-    <p class="meta-anchor rv"><span class="meta-anchor-text">Aktiveras med räckvidd-boost i nästa steg</span> <span class="meta-anchor-arrow" aria-hidden="true">↓</span></p>
+    <p class="meta-anchor rv"><span class="meta-anchor-text">Lägg till Meta-räckvidd per paket nedan</span> <span class="meta-anchor-arrow" aria-hidden="true">↓</span></p>
   </div>
 </section>
 
@@ -1114,20 +1172,6 @@ position:relative;overflow:hidden;transition:color .35s}
   <div class="pr-inner">
     <p class="sec-lbl rv">Investering</p>
     <h2 class="sec-h2 rv">Två sätt att bygga <em>berättelse och räckvidd.</em></h2>
-
-    <div class="ads-toggle rv" id="ads-toggle-wrap">
-      <span class="demo-hint" id="ads-demo-hint" aria-hidden="true">Jag rekommenderar <span class="demo-hint-arrow">↓</span></span>
-      <button class="ads-pill" id="ads-toggle" type="button" aria-pressed="false">
-        <span class="ads-switch" aria-hidden="true"></span>
-        <span class="ads-text">
-          <span class="ads-label">Aktivera Meta-räckvidd</span>
-          <span class="ads-detail-wrap">
-            <span class="ads-detail ads-detail-default">+10 000 SEK per produktion &middot; 150 000+ extra visningar via Meta&nbsp;Ads</span>
-            <span class="ads-detail ads-detail-active">Aktiv &middot; Meta-räckvidd per produktion</span>
-          </span>
-        </span>
-      </button>
-    </div>
 
     <div class="price-grid">
 
@@ -1145,6 +1189,13 @@ position:relative;overflow:hidden;transition:color .35s}
           <p class="pi">12 mån användarrätt till allt material</p>
           <p class="pi">Styling, foto, film och redigering ingår</p>
         </div>
+        <button class="pkg-boost" type="button" aria-pressed="false" data-pkg="start">
+          <span class="pkg-boost-switch" aria-hidden="true"></span>
+          <span class="pkg-boost-text">
+            <span class="pkg-boost-title">Aktivera Meta-räckvidd <span class="pkg-boost-price">+10 000 SEK</span></span>
+            <span class="pkg-boost-desc">Videon visas igen för dem som redan tittat &mdash; varm trafik direkt till einhell.dk.</span>
+          </span>
+        </button>
       </div>
 
       <!-- Säsongspaket — Helår (featured) -->
@@ -1164,6 +1215,13 @@ position:relative;overflow:hidden;transition:color .35s}
           <p class="pi">12 mån användarrätt + organic forever i Villa Sjöviks kanaler</p>
           <p class="pi">Styling, foto, film och redigering ingår</p>
         </div>
+        <button class="pkg-boost" type="button" aria-pressed="false" data-pkg="season">
+          <span class="pkg-boost-switch" aria-hidden="true"></span>
+          <span class="pkg-boost-text">
+            <span class="pkg-boost-title">Aktivera Meta-räckvidd <span class="pkg-boost-price">+30 000 SEK</span></span>
+            <span class="pkg-boost-desc">Alla tre produktionerna får retargeting &mdash; tittarna möter Einhell flera gånger, varm trafik direkt till einhell.dk.</span>
+          </span>
+        </button>
       </div>
 
     </div>
@@ -1511,11 +1569,8 @@ if(spotSec){
 })();
 
 (function(){
-  const toggle=document.getElementById('ads-toggle');
-  if(!toggle)return;
-  const totals=document.querySelectorAll('.price-total[data-base][data-boost]');
-  const origs=document.querySelectorAll('.price-orig[data-base][data-boost]');
-  let active=false;
+  const boosts=document.querySelectorAll('.pkg-boost');
+  if(!boosts.length)return;
 
   function fmt(n){return Math.round(n).toLocaleString('sv-SE')}
   function animateNumber(el,from,to,duration){
@@ -1529,72 +1584,57 @@ if(spotSec){
     requestAnimationFrame(tick);
   }
 
-  toggle.addEventListener('click',()=>{
-    active=!active;
-    toggle.setAttribute('aria-pressed',active?'true':'false');
-    totals.forEach(el=>{
-      const base=+el.dataset.base, boost=+el.dataset.boost;
-      const from=active?base:boost, to=active?boost:base;
-      animateNumber(el,from,to,720);
-      el.classList.remove('boost-pulse');
-      void el.offsetWidth;
-      el.classList.add('boost-pulse');
-    });
-    origs.forEach(el=>{
-      el.textContent=active?el.dataset.boost:el.dataset.base;
-      el.classList.remove('boost-pulse');
-      void el.offsetWidth;
-      el.classList.add('boost-pulse');
+  boosts.forEach(btn=>{
+    const box=btn.closest('.price-box');
+    if(!box)return;
+    const total=box.querySelector('.price-total[data-base][data-boost]');
+    const orig=box.querySelector('.price-orig[data-base][data-boost]');
+
+    btn.addEventListener('click',()=>{
+      const wasActive=btn.getAttribute('aria-pressed')==='true';
+      const next=!wasActive;
+      btn.setAttribute('aria-pressed',next?'true':'false');
+
+      if(total){
+        const base=+total.dataset.base, boost=+total.dataset.boost;
+        const from=next?base:boost, to=next?boost:base;
+        animateNumber(total,from,to,720);
+        total.classList.remove('boost-pulse');
+        void total.offsetWidth;
+        total.classList.add('boost-pulse');
+      }
+      if(orig){
+        orig.textContent=next?orig.dataset.boost:orig.dataset.base;
+        orig.classList.remove('boost-pulse');
+        void orig.offsetWidth;
+        orig.classList.add('boost-pulse');
+      }
     });
   });
 })();
 
-/* RÄCKVIDD-BOOST AUTO-DEMO — körs en gång per session när Investering-sektionen scrollas in */
+/* META-RÄCKVIDD AUTO-DEMO — vid första scroll-in: blinka featured-paketets pkg-boost-toggle (på och av) så besökaren ser funktionaliteten */
 (function(){
   const sec=document.getElementById('sec-pr');
-  const toggle=document.getElementById('ads-toggle');
-  const hint=document.getElementById('ads-demo-hint');
-  if(!sec||!toggle||!hint)return;
+  const btn=document.querySelector('.price-box.featured .pkg-boost');
+  if(!sec||!btn)return;
 
   try{if(sessionStorage.getItem('einhell-boost-demo-shown')==='true')return}catch(e){}
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 
-  let triggered=false, demoActive=false, demoInternal=false;
-  const tids=[];
-
-  function clearTids(){tids.forEach(id=>clearTimeout(id));tids.length=0}
-  function endDemo(){
-    hint.classList.remove('show');
-    demoActive=false;
-    try{sessionStorage.setItem('einhell-boost-demo-shown','true')}catch(e){}
-  }
-
-  toggle.addEventListener('click',()=>{
-    if(demoActive&&!demoInternal){clearTids();endDemo()}
-  });
-
+  let triggered=false;
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(!e.isIntersecting||triggered)return;
-      triggered=true;
-      obs.unobserve(e.target);
+      triggered=true;obs.unobserve(e.target);
 
-      tids.push(setTimeout(()=>{
-        demoActive=true;
-        hint.classList.add('show');
-
-        tids.push(setTimeout(()=>{
-          if(!demoActive)return;
-          demoInternal=true;toggle.click();demoInternal=false;
-
-          tids.push(setTimeout(()=>{
-            if(!demoActive)return;
-            demoInternal=true;toggle.click();demoInternal=false;
-
-            tids.push(setTimeout(()=>{endDemo()},700));
-          },3000));
-        },400));
-      },1200));
+      setTimeout(()=>{
+        btn.click();
+        setTimeout(()=>{
+          btn.click();
+          try{sessionStorage.setItem('einhell-boost-demo-shown','true')}catch(e){}
+        },3000);
+      },1400);
     });
   },{threshold:0.3});
 
