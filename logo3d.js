@@ -178,28 +178,36 @@ function initLogo3D(container) {
   new SVGLoader().load(svgPath, (data) => {
     const logo = new THREE.Group();
 
-    for (const path of data.paths) {
+    data.paths.forEach((path, pathIdx) => {
       // Use SVG's own fill color when requested, else use data-color
       let pathFront = frontMat, pathBevel = bevelMat;
       if (useColorFromSvg && path.color) {
         const c = path.color.getHex();
         pathFront = new THREE.MeshStandardMaterial({
-          color: c, metalness: 0.25, roughness: 0.35
+          color: c, metalness: 0.25, roughness: 0.35,
+          polygonOffset: true, polygonOffsetFactor: -pathIdx, polygonOffsetUnits: -1
         });
         pathBevel = new THREE.MeshStandardMaterial({
           color: darken('#' + c.toString(16).padStart(6,'0'), 0.1),
-          metalness: 0.4, roughness: 0.15
+          metalness: 0.4, roughness: 0.15,
+          polygonOffset: true, polygonOffsetFactor: -pathIdx, polygonOffsetUnits: -1
         });
       }
       for (const shape of SVGLoader.createShapes(path)) {
-        logo.add(new THREE.Mesh(
+        const mesh = new THREE.Mesh(
           new THREE.ExtrudeGeometry(shape, {
             depth, bevelEnabled:true, bevelThickness:3, bevelSize:1.8, bevelSegments:6
           }),
           [pathFront, pathBevel]
-        ));
+        );
+        // Anti-Z-fighting: lyft varje path 0.5 units framåt baserat på path-ordning
+        // SVGLoader returnerar paths i SVG-dokumentordning, så senare paths (vit "e", svart text)
+        // hamnar visuellt framför tidigare (röd kvadrat-bakgrund)
+        mesh.position.z = pathIdx * 0.5;
+        mesh.renderOrder = pathIdx;
+        logo.add(mesh);
       }
-    }
+    });
 
     // CENTERING FIX: translate actual geometry vertices, not mesh.position
     // This ensures the geometric center is at (0,0,0) before any transforms
