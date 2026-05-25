@@ -660,7 +660,8 @@ background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:
 @media(max-width:720px){.bt-readout{padding-left:0;padding-top:16px;border-left:0;border-top:1px solid rgba(212,168,75,.12)}}
 
 .bt-formula{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(15px,1.9vw,18px);color:var(--warm);line-height:1.5;font-feature-settings:"tnum"}
-.bt-formula strong{color:var(--gold);font-style:normal;font-weight:600;font-family:'Inter',sans-serif;font-size:.95em;letter-spacing:-.005em;transition:color .3s var(--ease)}
+.bt-formula strong{color:var(--gold);font-style:normal;font-weight:600;font-family:'Inter',sans-serif;font-size:.95em;letter-spacing:-.005em;transition:color .3s var(--ease);white-space:nowrap}
+.bt-hint strong{white-space:nowrap}
 .bt-formula .bt-eq{color:rgba(212,168,75,.55);margin:0 4px;font-style:normal;font-family:'Inter',sans-serif;font-weight:300}
 .bt-formula strong.flash{color:var(--gold2);text-shadow:0 0 14px rgba(240,200,120,.5)}
 
@@ -1772,9 +1773,9 @@ document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
         vx: 0,
         vy: 0,
         life: 0,
-        maxLife: variant==='a' ? (260+Math.random()*120) : (220+Math.random()*60),
-        phase: 'travel', // 'travel' → 'capture' → 'retarget'
-        retargetsLeft: variant==='b' ? (1+Math.floor(Math.random()*2)) : 0,
+        maxLife: variant==='a' ? (260+Math.random()*120) : (340+Math.random()*80),
+        phase: 'travel', // 'travel' → 'capture' → 'retarget' → 'deliver'
+        retargetsLeft: variant==='b' ? Math.floor(Math.random()*2) : 0, // 0 eller 1 retargets — vissa partiklar går direkt till deliver för tydlighet
         size: 1.6+Math.random()*1.6,
         alpha: 0,
         hue: variant==='a' ? 32 : 42,
@@ -1838,6 +1839,8 @@ document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
             } else {
               p.phase='deliver';p.deliverT=0;
               p.deliverStart={x:p.x,y:p.y};
+              // Säkerställ att deliver-fasen hinner slutföras innan particle fadeas
+              p.maxLife = Math.max(p.maxLife, p.life + 75);
             }
           }
         } else if(p.phase==='retarget'){
