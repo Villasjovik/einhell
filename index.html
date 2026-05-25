@@ -442,8 +442,10 @@ background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:
 #sec-meta::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 70% 50% at 50% 45%,rgba(212,168,75,.07),transparent 65%)}
 .meta-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1;text-align:center}
-.meta-inner .sec-h2{text-align:left;margin-bottom:88px}
-/* sec-lbl + sec-h2 båda vänsterställda — matchar Investering/Fokus/Kanalen-canonical-layouten */
+.meta-inner .sec-h2{text-align:left;margin-bottom:0}
+/* Heading-wrapper: inline-block centrerad i meta-inner, vänsterställd inuti — sec-lbl hamnar ovanför H2:s första ord */
+.meta-heading{display:inline-block;text-align:left;margin-bottom:88px}
+.meta-heading .sec-lbl{margin-bottom:24px}
 
 .meta-flow{position:relative;max-width:1000px;margin:0 auto 80px;padding:20px 0 40px}
 .flow-rail{position:relative;min-height:160px;display:flex;align-items:flex-start;justify-content:space-between;padding-top:24px}
@@ -1195,8 +1197,10 @@ position:relative;overflow:hidden;transition:color .35s}
 <!-- META — KONVERTERINGSKEDJA (visuellt flow) -->
 <section id="sec-meta">
   <div class="meta-inner">
-    <p class="sec-lbl rv">Effekten bakom</p>
-    <h2 class="sec-h2 rv">Mer än räckvidd. <em>Konvertering.</em></h2>
+    <div class="meta-heading">
+      <p class="sec-lbl rv">Effekten bakom</p>
+      <h2 class="sec-h2 rv">Mer än räckvidd. <em>Konvertering.</em></h2>
+    </div>
 
     <div class="meta-flow rv">
       <div class="flow-rail">
