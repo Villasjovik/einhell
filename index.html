@@ -1423,9 +1423,9 @@ position:relative;overflow:hidden;transition:color .35s}
             <input id="bt-input" class="bt-input" type="text" inputmode="numeric" autocomplete="off" aria-describedby="bt-formula" value="10 000">
             <span class="bt-suffix" aria-hidden="true">SEK</span>
           </div>
-          <input id="bt-range" class="bt-range" type="range" min="5000" max="100000" step="1000" value="10000" aria-label="Justera Meta-budget med reglage"/>
+          <input id="bt-range" class="bt-range" type="range" min="0" max="100000" step="1000" value="10000" aria-label="Justera Meta-budget med reglage"/>
           <div class="bt-ticks" aria-hidden="true">
-            <span>5k</span><span>25k</span><span>50k</span><span>75k</span><span>100k</span>
+            <span>0</span><span>25k</span><span>50k</span><span>75k</span><span>100k</span>
           </div>
         </div>
 
@@ -2132,7 +2132,7 @@ if(spotSec){
 
   const VIEWS_PER_SEK=15;
   const SEASON_MULT=3;
-  const MIN=5000, MAX=100000;
+  const MIN=0, MAX=100000;
   const STORAGE_KEY='einhell-meta-budget';
 
   let currentBudget=10000;
