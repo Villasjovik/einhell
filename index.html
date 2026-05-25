@@ -561,6 +561,8 @@ background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:
 .pr-inner{position:relative;z-index:1;max-width:900px;margin:0 auto}
 /* Investering-H2: tvinga 1 rad på desktop (>=900px viewport), wrap naturligt på mobile */
 @media(min-width:900px){#sec-pr .sec-h2{white-space:nowrap}}
+/* Lite extra luft mellan titel och pricing-griden */
+#sec-pr .sec-h2{margin-bottom:76px}
 .pr-orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
 .pr-orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(212,168,75,.12),transparent);top:-150px;right:-100px;animation:orbf 26s ease-in-out infinite}
 @property --pb-float{syntax:'<length>';inherits:false;initial-value:0px}
